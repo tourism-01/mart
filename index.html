@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gadgetrix.shop - Amazon Affiliate</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Header -->
+  <header class="p-4 bg-indigo-700 text-white text-center shadow-lg">
+    <h1 class="text-3xl font-bold tracking-wide">Gadgetrix.shop</h1>
+  </header>
+
+  <!-- Search -->
+  <div class="p-4 max-w-4xl mx-auto">
+    <input
+      id="search"
+      type="text"
+      placeholder="Search products..."
+      class="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+    />
+  </div>
+
+  <!-- Product Grid -->
+  <main class="max-w-6xl mx-auto px-4 pb-10">
+    <div id="product-list" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <!-- Products render here -->
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="flex justify-center gap-4 mt-8">
+      <button id="prev-btn" class="px-4 py-2 bg-gray-300 text-black rounded-xl hover:bg-gray-400 disabled:opacity-50 flex justify-center " disabled>Prev</button>
+      <p></p>
+      <button id="next-btn" class="px-4 py-2 bg-indigo-500 text-white rounded-xl hover:bg-indigo-600">Next</button>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white text-center p-4">
+    As an Amazon Associate, I earn from qualifying purchases.
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    const page1Products = [
+      { name: "Wireless Headphones", image: "manali.jpg", link: "https://amzn.to/4iROQtw", bio: "Gaming Headphone with 70H Playtime" },
+      { name: "Smartwatch", image: "https://via.placeholder.com/300x200?text=Smartwatch", link: "https://amzn.to/ex1", bio: "Health & fitness tracking." },
+      { name: "Gaming Mouse", image: "https://via.placeholder.com/300x200?text=Gaming+Mouse", link: "https://amzn.to/ex2", bio: "Precision RGB mouse." },
+      { name: "Bluetooth Speaker", image: "https://via.placeholder.com/300x200?text=Speaker", link: "https://amzn.to/ex3", bio: "Portable and powerful sound." },
+      { name: "Smartwatch Pro X", image: "https://via.placeholder.com/300x200?text=Smartwatch+Pro+X", link: "https://amzn.to/example2", bio: "High-res display, GPS." },
+      { name: "ANC Earbuds", image: "https://via.placeholder.com/300x200?text=Earbuds", link: "https://amzn.to/example3", bio: "Noise cancelling wireless." },
+      { name: "4K Webcam", image: "https://via.placeholder.com/300x200?text=Webcam", link: "https://amzn.to/example4", bio: "Auto focus with mic." },
+      { name: "USB-C Hub", image: "https://via.placeholder.com/300x200?text=USB-C+Hub", link: "https://amzn.to/example5", bio: "6-in-1 USB-C adapter." }, { name: "Smartwatch Pro X", image: "https://via.placeholder.com/300x200?text=Smartwatch+Pro+X", link: "https://amzn.to/example2", bio: "High-res display, GPS." },
+
+      
+    ];
+
+    const page2Products = [
+      { name: "Smartwatch Pro X", image: "https://via.placeholder.com/300x200?text=Smartwatch+Pro+X", link: "https://amzn.to/example2", bio: "High-res display, GPS." },
+      { name: "ANC Earbuds", image: "https://via.placeholder.com/300x200?text=Earbuds", link: "https://amzn.to/example3", bio: "Noise cancelling wireless." },
+      { name: "4K Webcam", image: "https://via.placeholder.com/300x200?text=Webcam", link: "https://amzn.to/example4", bio: "Auto focus with mic." },
+      { name: "USB-C Hub", image: "https://via.placeholder.com/300x200?text=USB-C+Hub", link: "https://amzn.to/example5", bio: "6-in-1 USB-C adapter." },
+      { name: "Smartwatch Pro X", image: "https://via.placeholder.com/300x200?text=Smartwatch+Pro+X", link: "https://amzn.to/example2", bio: "High-res display, GPS." },
+      { name: "ANC Earbuds", image: "https://via.placeholder.com/300x200?text=Earbuds", link: "https://amzn.to/example3", bio: "Noise cancelling wireless." },
+      { name: "4K Webcam", image: "https://via.placeholder.com/300x200?text=Webcam", link: "https://amzn.to/example4", bio: "Auto focus with mic." },
+      { name: "USB-C Hub", image: "https://via.placeholder.com/300x200?text=USB-C+Hub", link: "https://amzn.to/example5", bio: "6-in-1 USB-C adapter." }, { name: "Smartwatch Pro X", image: "https://via.placeholder.com/300x200?text=Smartwatch+Pro+X", link: "https://amzn.to/example2", bio: "High-res display, GPS." },
+      { name: "ANC Earbuds", image: "https://via.placeholder.com/300x200?text=Earbuds", link: "https://amzn.to/example3", bio: "Noise cancelling wireless." },
+      { name: "4K Webcam", image: "https://via.placeholder.com/300x200?text=Webcam", link: "https://amzn.to/example4", bio: "Auto focus with mic." },
+      { name: "USB-C Hub", image: "https://via.placeholder.com/300x200?text=USB-C+Hub", link: "https://amzn.to/example5", bio: "6-in-1 USB-C adapter." },
+    ];
+
+    const allPages = [page1Products, page2Products];
+    let currentPage = 0;
+
+    const productList = document.getElementById("product-list");
+    const searchInput = document.getElementById("search");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+
+    function renderProducts(list) {
+      productList.innerHTML = "";
+      list.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "bg-white p-4 rounded-2xl shadow hover:shadow-xl transition flex flex-col justify-between";
+
+        card.innerHTML = `
+          <div>
+            <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover rounded-xl mb-4" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
+            <h2 class="text-lg font-semibold mb-2">${product.name}</h2>
+            <p class="mb-4 text-gray-600">${product.bio || "No description available."}</p>
+          </div>
+          <div class="flex items-center justify-between mt-auto pt-2">
+           
+            <a href="${product.link}" target="_blank" class="px-4 py-2 bg-indigo-500 text-white rounded-xl hover:bg-indigo-600">
+              Product link
+            </a>
+          </div>
+        `;
+        productList.appendChild(card);
+      });
+
+      document.querySelectorAll('.save-btn').forEach(button => {
+        button.addEventListener('click', () => {
+          const icon = button.querySelector('i');
+          icon.classList.toggle('text-white');
+          icon.classList.toggle('text-black');
+        });
+      });
+    }
+
+    function updatePaginationButtons() {
+      prevBtn.disabled = currentPage === 0;
+      nextBtn.disabled = currentPage === allPages.length - 1;
+    }
+
+    function filterAndRender() {
+      const keyword = searchInput.value.toLowerCase();
+      const filtered = allPages[currentPage].filter(p => p.name.toLowerCase().includes(keyword));
+      renderProducts(filtered);
+    }
+
+    // Initial load
+    filterAndRender();
+    updatePaginationButtons();
+
+    // Events
+    searchInput.addEventListener("input", filterAndRender);
+
+    nextBtn.addEventListener("click", () => {
+      if (currentPage < allPages.length - 1) {
+        currentPage++;
+        filterAndRender();
+        updatePaginationButtons();
+      }
+    });
+
+    prevBtn.addEventListener("click", () => {
+      if (currentPage > 0) {
+        currentPage--;
+        filterAndRender();
+        updatePaginationButtons();
+      }
+    });
+  </script>
+
+</body>
+</html>
